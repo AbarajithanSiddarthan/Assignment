@@ -1,0 +1,13 @@
+.center{
+    text-align: center;
+}
+.label{
+    width: 10%;
+}
+.container{
+    margin: 14% 5%;
+}
+.error{
+    color: red;
+    margin-left: 80px;
+}

@@ -1,0 +1,87 @@
+<h2 class="center mt-2">Student Database
+  <button type="button" class="btn btn-danger mt-2" style="float: right;" (click)="logout()">Logout</button>
+</h2>
+<div class="container center pt-5">
+    <form [formGroup]="studentForm" (ngSubmit)="create()">
+        <div class="row">
+          <div class="col-md-3">
+            <label for="stuname" class="label me-2">Name</label>
+            <input type="text" name="stuname" id="stuname" formControlName="name">
+            <div class="error" *ngIf="studentForm.get('name') && studentForm.get('name')?.touched && studentForm.get('name')?.errors">Required Field</div>
+        </div>
+        <div class="col-md-3">
+            <label for="age" class="label me-2">Age</label>
+            <input type="number" name="age" id="age" formControlName="age">
+            <div class="error" *ngIf="studentForm.get('age') && studentForm.get('age')?.touched && studentForm.get('age')?.errors">Required Field</div>
+        </div>
+        <div class="col-md-3">
+            <label for="department" class="label me-2">Department</label>
+            <input type="text" name="department" id="department" formControlName="department">
+            <div class="error" *ngIf="studentForm.get('department') && studentForm.get('department')?.touched && studentForm.get('department')?.errors">Required Field</div>
+        </div>
+        <div class="col-md-3">
+            <label for="sid" class="label me-2">StudentID</label>
+            <input type="number" name="sid" id="sid" formControlName="sid">
+            <div class="error" *ngIf="studentForm.get('sid') && studentForm.get('sid')?.touched && studentForm.get('sid')?.errors">Required Field</div>
+        </div>
+        </div>
+        <button type="submit" [disabled]="!studentForm.valid" class="btn btn-success mt-4 mb-2" style="float: right;">Create</button>
+    </form>
+</div>
+<table class="table mt-5">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Department</th>
+            <th>StudentID</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of studentDataBase;let i = index">
+        <td>
+          <div *ngIf="student.isEdit">
+            <input type="text" [(ngModel)]="student.name">
+          </div>
+          <div *ngIf="!student.isEdit">
+            {{student.name}}
+          </div>
+        </td>
+        <td>
+          <div *ngIf="student.isEdit">
+            <input type="text" [(ngModel)]="student.age">
+          </div>
+          <div *ngIf="!student.isEdit">
+            {{student.age}}
+          </div>
+        </td>
+        <td>
+          <div *ngIf="student.isEdit">
+            <input type="text" [(ngModel)]="student.sid">
+          </div>
+          <div *ngIf="!student.isEdit">
+            {{student.sid}}
+          </div>
+        </td>
+        <td>
+          <div *ngIf="student.isEdit">
+            <input type="text" [(ngModel)]="student.department">
+          </div>
+          <div *ngIf="!student.isEdit">
+            {{student.department}}
+          </div>
+        </td>
+    
+        <td>
+          <div *ngIf="!student.isEdit">
+            <button type="button" class="btn btn-primary mr-2" (click)="edit(student)">EDIT</button>
+            <button type="button" class="btn btn-danger" (click)="delete(student)">DELETE</button>
+          </div>
+          <div *ngIf="student.isEdit">
+            <button type="button" class="btn btn-info" (click)="update(student)">UPDATE</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+</table>

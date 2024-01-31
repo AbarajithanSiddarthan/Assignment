@@ -1,0 +1,12 @@
+.label{
+    min-width: 7%;
+}
+th{
+    width: 10%;
+}
+.error{
+    color: red;
+}
+.center{
+    text-align: center;
+}
