@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { RestapiService } from '../services/restapi.service';
 import { Router } from '@angular/router';
+import * as _ from 'lodash';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -20,21 +22,19 @@ export class DashboardComponent implements OnInit {
   constructor(public service:RestapiService,private router:Router) { }
 
   ngOnInit(): void {
-    // this.service.getDetails().subscribe((data)=>{
-    //   this.studentDataBase = data;
-    // })
+    this.service.getDetails().subscribe((data)=>{
+      this.studentDataBase = data;
+    })
   }
 
   create(){
     console.log(this.studentForm.value);
     this.studentForm.value['isEdit'] = false;
-    this.studentDataBase.push(this.studentForm.value)
-    debugger
-    // this.service.createStudent(this.studentForm.value).subscribe((data:any)=>{
-    //   console.log(data);
-    //   this.studentDataBase.push(data);
-    //   this.studentForm.reset();
-    // })
+    this.service.createStudent(this.studentForm.value).subscribe((data:any)=>{
+      console.log(data);
+      this.studentDataBase.push(data);
+      this.studentForm.reset();
+    })
   }
 
   edit(student: any) {
@@ -47,18 +47,19 @@ export class DashboardComponent implements OnInit {
   update(student: any) {
     let id = student._id;
     student.isEdit = false;
-    // delete student._id;
-    // const studentString = JSON.stringify(student);
-    // this.service.updateStudent(id,studentString).subscribe((data:any)=>{
-    //   console.log(data);
-    // })
+    const dummy = _.cloneDeep(student)
+    delete dummy._id;
+    const studentString = JSON.stringify(dummy);
+    this.service.updateStudent(id,studentString).subscribe((data:any)=>{
+      console.log(data);
+    })
   }
   
   delete(student: any) {
-    // this.service.deleteStudent(student).subscribe((data:any)=>{
-    //   const index = this.studentDataBase.indexOf(student);
-    //   this.studentDataBase.splice(index,1)
-    // })
+    this.service.deleteStudent(student).subscribe((data:any)=>{
+      const index = this.studentDataBase.indexOf(student);
+      this.studentDataBase.splice(index,1)
+    })
   }
 
   logout(){
@@ -66,3 +67,5 @@ export class DashboardComponent implements OnInit {
   }
 
 }
+
+
